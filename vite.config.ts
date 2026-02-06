@@ -2,39 +2,40 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    host: "::",
-    port: 5173,  
-    proxy: {
-      "/auth": "http://localhost:3000"
-    }
-  },
   plugins: [react()],
+
+  define: {
+    'process.env': {}, // 👈 FIX ABSOLU
+  },
+
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
+
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/widget.tsx'),
-      name: 'AppointmentWidget',
-      fileName: 'widget',
-      formats: ['iife']
+      entry: path.resolve(__dirname, "src/widget.tsx"),
+      name: "AppointmentWidget",
+      fileName: () => "widget.iife.js",
+      formats: ["iife"],
     },
+
     rollupOptions: {
-      external: ['react', 'react-dom'],
+      external: ["react", "react-dom"],
       output: {
-        assetFileNames: 'widget.[ext]',
-        inlineDynamicImports: true,
         globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM'
-        }
-      }
+          react: "React",
+          "react-dom": "ReactDOM",
+        },
+        inlineDynamicImports: true,
+      },
     },
+
     cssCodeSplit: false,
-  }
+    minify: true,
+    emptyOutDir: true,
+  },
 });
