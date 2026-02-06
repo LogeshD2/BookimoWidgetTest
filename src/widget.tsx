@@ -61,13 +61,26 @@ class AppointmentWidget {
   }
 }
 
-// Exposer globalement
-(window as any).AppointmentWidget = AppointmentWidget;
+// Exposer globalement - VERSION ROBUSTE
+if (typeof window !== 'undefined') {
+  (window as any).AppointmentWidget = AppointmentWidget;
+}
 
-// Auto-init si data-auto-open
-if (document.currentScript?.hasAttribute('data-auto-open')) {
-  const widget = new AppointmentWidget({ autoOpen: true });
-  widget.mount();
+// Auto-init si data-auto-open avec DOMContentLoaded
+if (typeof document !== 'undefined') {
+  const initWidget = () => {
+    const script = document.currentScript as HTMLScriptElement;
+    if (script && script.hasAttribute('data-auto-open')) {
+      const widget = new AppointmentWidget({ autoOpen: true });
+      widget.mount();
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWidget);
+  } else {
+    initWidget();
+  }
 }
 
 export default AppointmentWidget;
