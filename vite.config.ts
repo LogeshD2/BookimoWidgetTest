@@ -38,7 +38,7 @@ export default defineConfig({
     // -------------------
     // Gestion du CSS
     // -------------------
-    cssCodeSplit: true, // génère un fichier CSS séparé : widget.css
+    cssCodeSplit: false, // ✅ CHANGEMENT ICI : inclure le CSS dans le JS
   },
 
   server: {
