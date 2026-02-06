@@ -28,6 +28,7 @@ class AppointmentWidget {
     if (!this.container) {
       this.container = document.createElement('div');
       this.container.id = this.options.containerId!;
+      this.container.className = 'appointment-widget-root'; // ✅ AJOUTER LA CLASSE
       document.body.appendChild(this.container);
     }
 
