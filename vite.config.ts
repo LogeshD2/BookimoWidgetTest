@@ -22,12 +22,17 @@ export default defineConfig({
       entry: path.resolve(__dirname, 'src/widget.tsx'),
       name: 'AppointmentWidget',
       fileName: 'widget',
-      formats: ['iife'] // Format pour le browser
+      formats: ['iife']
     },
     rollupOptions: {
+      external: ['react', 'react-dom'],
       output: {
         assetFileNames: 'widget.[ext]',
         inlineDynamicImports: true,
+        globals: {
+          react: 'React',
+          'react-dom': 'ReactDOM'
+        }
       }
     },
     cssCodeSplit: false,
